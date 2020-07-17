@@ -9,10 +9,10 @@ const initialState = {
 const myReducer = (state = initialState, action) => {
   const newState = {...state};
   if (action.type === 'ADD') {
-    newState.age += 1;
+    newState.age += action.val;
   }
   if (action.type === 'SUBSTRACT') {
-    newState.age -= 1;
+    newState.age -= action.val;
   }
   return newState;
 };
@@ -20,11 +20,12 @@ const myReducer = (state = initialState, action) => {
 /* Store */
 const store = createStore(myReducer);
 
+/* Adding subscription */
+store.subscribe(() => {
+  console.log('state changed' + JSON.stringify(store.getState()));
+});
+
 /* Dispatch ADD and SUBSCRIBE actions */
-console.log('initial state' + JSON.stringify(store.getState()));
-store.dispatch({type: 'ADD'});
+store.dispatch({type: 'ADD', val: 10});
 
-console.log('after add' + JSON.stringify(store.getState()));
-store.dispatch({type: 'SUBSTRACT'});
-
-console.log('end state' + JSON.stringify(store.getState()));
+store.dispatch({type: 'SUBSTRACT', val: 5});
